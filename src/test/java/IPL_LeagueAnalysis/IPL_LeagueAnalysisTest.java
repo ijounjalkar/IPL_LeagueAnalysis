@@ -2,6 +2,8 @@ package IPL_LeagueAnalysis;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 public class IPL_LeagueAnalysisTest {
@@ -26,6 +28,20 @@ public class IPL_LeagueAnalysisTest {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	@Test
+	public void givenCSVFileOfRuns_IfMatchTopBattingAvg_ReturnsThePlayer() throws IOException, CSVBuilderExecption {
+		IPL_LeagueAnalysis test = new IPL_LeagueAnalysis();
+		test.loadMostRunsCSVFile(FileName_MostRuns);
+		double result = test.getTopBattingAvg();
+		assertEquals(83.2, result, 0.0);
+	}
+	@Test
+	public void givenCSVFileOfRuns_IfMatchTopStrikingRate_ReturnsThePlayer() throws IOException, CSVBuilderExecption {
+		IPL_LeagueAnalysis test = new IPL_LeagueAnalysis();
+		test.loadMostRunsCSVFile(FileName_MostRuns);
+		double result = test.getTopStrike();
+		assertEquals(333.33, result, 0.0);
 	}
 
 }
