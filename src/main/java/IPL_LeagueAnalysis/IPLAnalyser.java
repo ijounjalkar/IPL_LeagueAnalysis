@@ -32,7 +32,7 @@ public class IPLAnalyser {
 		csvWktsList = csvBuilder.getCSVFileList(reader, MostWktsCSV.class);
 		return csvWktsList.size();
 	}
-
+	
 	/**
 	 * Usecase1 : sorting data based on batting average
 	 * 
@@ -82,5 +82,30 @@ public class IPLAnalyser {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
+	
+	/**
+	 * Usecase4 : Finding strike rate based on Sixes and fours
+	 * 
+	 * @return
+	 */
+	public String getSortedDataOnStrikeRateOnSixAndFour() {
+		double max = 0;
+		double temp = 0;
+		String name = "";
+		double maxSR = 0;
+		double tempSR = 0;
+		for (int i = 0; i < csvRunsList.size(); i++) {
+			temp = (csvRunsList.get(i).noOfFours + csvRunsList.get(i).noOfSixes);
+			tempSR = temp / csvRunsList.get(i).bF;
+			if (temp > max && tempSR > maxSR) {
+				max = temp;
+				maxSR = tempSR;
+				name = csvRunsList.get(i).playerName;
+			}
+		}
+		System.out.println(name);
+		return name;
+	}
+
 
 }
