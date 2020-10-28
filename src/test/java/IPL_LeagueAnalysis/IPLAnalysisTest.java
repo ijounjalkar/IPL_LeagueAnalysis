@@ -13,8 +13,8 @@ import com.google.gson.Gson;
 
 public class IPLAnalysisTest {
 	IPLAnalyser iPLAnalyser;
-	private static final String MOST_RUNS = "C:\\Users\\adity\\eclipse-workspace\\Final_IPL\\lib\\MostRuns.csv";
-	private static final String MOST_WKTS = "C:\\Users\\adity\\eclipse-workspace\\Final_IPL\\lib\\MostWkts.csv";
+	public static final String MOST_RUNS = "C:\\Users\\ADMIN\\eclipse-workspace\\IPL_LeagueAnalysis\\WP DP Data_01 IPL2019FactsheetMostRuns.csv";
+	public static final String MOST_WKTS = "C:\\Users\\ADMIN\\eclipse-workspace\\IPL_LeagueAnalysis\\WP DP Data_02 IPL2019FactsheetMostWkts.csv";
 
 	@Before
 	public void setUp() {
