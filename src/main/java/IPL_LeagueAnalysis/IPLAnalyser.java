@@ -118,6 +118,18 @@ public class IPLAnalyser {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
+	
+	/**
+	 * Usecase6 : Finding BatsMan with max runs and best average in IPL2019
+	 * 
+	 * @return
+	 */
+	public String getSortedOnMaxRunsAndStrikeRate() {
+		Comparator<MostRunsCSV> iplCSVComparator = Comparator.comparing(entry -> entry.runs);
+		this.sort(csvRunsList, iplCSVComparator.thenComparing(entry -> entry.avg));
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
 
 
 

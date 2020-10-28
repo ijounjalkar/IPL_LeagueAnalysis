@@ -120,5 +120,21 @@ public class IPLAnalysisTest {
 		MostRunsCSV[] iplCSV = new Gson().fromJson(sortedCSVData, MostRunsCSV[].class);
 		assertEquals("MS Dhoni", iplCSV[0].playerName);
 	}
+	
+	/**
+	 * Player with maximum runs and best average
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenRunsData_WhenSortedOnMaxRunsAndStrikeRate_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
+		String sortedCSVData = iPLAnalyser.getSortedOnMaxRunsAndStrikeRate();
+		MostRunsCSV[] iplCSV = new Gson().fromJson(sortedCSVData, MostRunsCSV[].class);
+		assertEquals("David Warner", iplCSV[0].playerName);
+	}
+
 
 }
