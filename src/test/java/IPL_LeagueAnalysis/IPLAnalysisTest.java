@@ -105,5 +105,20 @@ public class IPLAnalysisTest {
 		String name = iPLAnalyser.getSortedDataOnStrikeRateOnSixAndFour();
 		assertEquals("Andre Russell", name);
 	}
+	
+	/**
+	 * Player with best average and strike rate
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenRunsData_WhenSortedOnAverageAndStrikeRate_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
+		String sortedCSVData = iPLAnalyser.getSortedOnAverageAndStrikeRate();
+		MostRunsCSV[] iplCSV = new Gson().fromJson(sortedCSVData, MostRunsCSV[].class);
+		assertEquals("MS Dhoni", iplCSV[0].playerName);
+	}
 
 }

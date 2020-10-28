@@ -106,6 +106,19 @@ public class IPLAnalyser {
 		System.out.println(name);
 		return name;
 	}
+	
+	/**
+	 * Usecase5 : Finding Batsman with best batting Average and strike rate
+	 * 
+	 * @return
+	 */
+	public String getSortedOnAverageAndStrikeRate() {
+		Comparator<MostRunsCSV> iplCSVComparator = Comparator.comparing(entry -> entry.avg);
+		this.sort(csvRunsList, iplCSVComparator.thenComparing(entry -> entry.strikeRate));
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
+
 
 
 }
