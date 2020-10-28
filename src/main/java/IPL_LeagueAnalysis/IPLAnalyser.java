@@ -150,5 +150,30 @@ public class IPLAnalyser {
 			}
 		}
 	}
+	
+	/**
+	 * Usecase8 : Finding Bowler with best striking rate in IPL2019
+	 * 
+	 * @return
+	 */
+	public String getSortedOnBowlingStrikeRate() {
+		Comparator<MostWktsCSV> iplCSVComparator = Comparator.comparing(entry -> entry.strikeRate);
+		this.sortForBowling(csvWktsList, iplCSVComparator);
+		String sorted = new Gson().toJson(csvWktsList);
+		return sorted;
+	}
+
+	private <E> void sortForBowling(List<MostWktsCSV> csvList, Comparator<MostWktsCSV> iplCSVComparator) {
+		for (int i = 0; i < csvList.size(); i++) {
+			for (int j = 0; j < csvList.size() - i - 1; j++) {
+				MostWktsCSV player1 = csvList.get(j);
+				MostWktsCSV player2 = csvList.get(j + 1);
+				if (iplCSVComparator.compare(player1, player2) > 0 && (player1.wickets != 0 && player2.wickets != 0)) {
+					csvList.set(j, player2);
+					csvList.set(j + 1, player1);
+				}
+			}
+		}
+	}
 
 }
