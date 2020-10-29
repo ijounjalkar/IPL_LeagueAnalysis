@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gson.Gson;
 
@@ -187,6 +189,40 @@ public class IPLAnalyser {
 		this.sort(csvWktsList, iplCSVComparator);
 		String sorted = new Gson().toJson(csvWktsList);
 		return sorted;
+	}
+
+	private <E> void sortForBowling(List<MostWktsCSV> csvList, Comparator<MostWktsCSV> iplCSVComparator) {
+		for (int i = 0; i < csvList.size(); i++) {
+			for (int j = 0; j < csvList.size() - i - 1; j++) {
+				MostWktsCSV player1 = csvList.get(j);
+				MostWktsCSV player2 = csvList.get(j + 1);
+				if (iplCSVComparator.compare(player1, player2) > 0 && (player1.wickets != 0 && player2.wickets != 0)) {
+					csvList.set(j, player2);
+					csvList.set(j + 1, player1);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Usecase10 : Bowler with best strike rate based on four and five wickets haul
+	 * 
+	 * @return
+	 */
+	public String getSortedOnStrikeRateAnd4wOr5w() {
+		double tempSR = 0;
+		TreeMap<Double, String> csvMap = new TreeMap<>();
+		for(int i = 0; i < csvWktsList.size(); i++ ) {
+			int temp = csvWktsList.get(i).fourWkts * 4 + csvWktsList.get(i).fiveWkts * 5;
+			if(temp > 0) {
+				tempSR = ((Math.round(csvWktsList.get(i).over)*6 + ((csvWktsList.get(i).over*10)%10)))/temp;
+				csvMap.put(tempSR, csvWktsList.get(i).playerName);
+			}
+		}
+		for(Map.Entry<Double, String> entry : csvMap.entrySet()) {
+			System.out.println(entry.getKey()+" "+ entry.getValue());
+		}
+		return (String)csvMap.values().toArray()[0];
 	}
 
 	private <E> void sortForBowling(List<MostWktsCSV> csvList, Comparator<MostWktsCSV> iplCSVComparator) {
