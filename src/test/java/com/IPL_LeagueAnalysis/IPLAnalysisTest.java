@@ -1,4 +1,4 @@
-package IPL_LeagueAnalysis;
+package com.IPL_LeagueAnalysis;
 
 import static org.junit.Assert.assertEquals;
 
@@ -209,6 +209,23 @@ public class IPLAnalysisTest {
 		MostWktsCSV[] iplCSV = new Gson().fromJson(sortedCSVData, MostWktsCSV[].class);
 		assertEquals("Kagiso Rabada", iplCSV[0].playerName);
 		assertEquals("Khaleel Ahmed", iplCSV[1].playerName);
+
+	}
+	/**
+	 * Player with best batting and bowling average
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 * @throws IPLAnalyserException
+	 */
+	@Test
+	public void givenWktsData_WhenSortedOnBattingAndBowlingAvg_ShouldReturnTrue()
+			throws IOException, CSVBuilderException, IPLAnalyserException {
+		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
+		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
+		List<String> sortedCSVData = iPLAnalyser.getSortedOnBestBattingAndBowlingAvg();
+		assertEquals("Andre Russell", sortedCSVData.get(0));
+		assertEquals("Marcus Stoinis", sortedCSVData.get(1));
 
 	}
 	

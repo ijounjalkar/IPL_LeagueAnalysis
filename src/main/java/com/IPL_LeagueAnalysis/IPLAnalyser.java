@@ -1,6 +1,7 @@
-package IPL_LeagueAnalysis;
+package com.IPL_LeagueAnalysis;
 
 import java.io.IOException;
+
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,13 +10,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import com.google.gson.reflect.TypeToken;
 
 import com.google.gson.Gson;
-
 import CSVReader.CSVBuilderFactory;
 import CSVReader.ICSVBuilder;
-
-import CSVReader.CSVBuilderException;
 
 public class IPLAnalyser {
 	List<MostRunsCSV> csvRunsList = null;
@@ -257,5 +257,28 @@ public class IPLAnalyser {
 			}
 		}
 	}
+			/**
+			 * Usecase13 : Players with best bowling and batting average
+			 * 
+			 * @return
+			 */
+			@SuppressWarnings("unchecked")
+			public List<String> getSortedOnBestBattingAndBowlingAvg() {
+				List<MostRunsCSV> battingList = (ArrayList<MostRunsCSV>) new Gson().fromJson(this.getAverageWiseSortedData(),
+						new TypeToken<ArrayList<MostRunsCSV>>() {
+						}.getType());
+				List<MostWktsCSV> bowlingList = (ArrayList<MostWktsCSV>) new Gson().fromJson(this.getSortedOnBowlingAvg(),
+						new TypeToken<ArrayList<MostWktsCSV>>() {
+						}.getType());
+				List<String> playerList = new ArrayList<>();
+				for (MostRunsCSV bat : battingList) {
+					for (MostWktsCSV bowl : bowlingList) {
+						if (bat.playerName.equals(bowl.playerName)) {
+							playerList.add(bat.playerName);
+						}
+					}
+				}
+				return playerList;
+			}
 
 }

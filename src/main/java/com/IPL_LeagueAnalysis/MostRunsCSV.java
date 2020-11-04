@@ -1,4 +1,4 @@
-package IPL_LeagueAnalysis;
+package com.IPL_LeagueAnalysis;
 
 import com.opencsv.bean.CsvBindByName;
 
