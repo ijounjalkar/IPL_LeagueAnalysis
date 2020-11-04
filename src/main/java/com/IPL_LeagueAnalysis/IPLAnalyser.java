@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +35,7 @@ public class IPLAnalyser {
 		csvWktsList = csvBuilder.getCSVFileList(reader, MostWktsCSV.class);
 		return csvWktsList.size();
 	}
-	
+
 	/**
 	 * Usecase1 : sorting data based on batting average
 	 * 
@@ -84,7 +85,7 @@ public class IPLAnalyser {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
-	
+
 	/**
 	 * Usecase4 : Finding strike rate based on Sixes and fours
 	 * 
@@ -108,7 +109,7 @@ public class IPLAnalyser {
 		System.out.println(name);
 		return name;
 	}
-	
+
 	/**
 	 * Usecase5 : Finding Batsman with best batting Average and strike rate
 	 * 
@@ -120,7 +121,7 @@ public class IPLAnalyser {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
-	
+
 	/**
 	 * Usecase6 : Finding BatsMan with max runs and best average in IPL2019
 	 * 
@@ -132,14 +133,14 @@ public class IPLAnalyser {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
-	
+
 	public String getSortedOnBowlingAvg() {
 		Comparator<MostWktsCSV> iplCSVComparator = Comparator.comparing(entry -> entry.avg);
 		this.sortForBowling(csvWktsList, iplCSVComparator);
 		String sorted = new Gson().toJson(csvWktsList);
 		return sorted;
 	}
-	
+
 	private <E> void sortForBowling(List<MostWktsCSV> csvList, Comparator<MostWktsCSV> iplCSVComparator) {
 		for (int i = 0; i < csvList.size(); i++) {
 			for (int j = 0; j < csvList.size() - i - 1; j++) {
@@ -152,7 +153,7 @@ public class IPLAnalyser {
 			}
 		}
 	}
-	
+
 	/**
 	 * Usecase8 : Finding Bowler with best striking rate in IPL2019
 	 * 
@@ -177,7 +178,7 @@ public class IPLAnalyser {
 			}
 		}
 	}
-	
+
 	/**
 	 * Usecase9 : Finding Bowler with good economy
 	 * 
@@ -203,7 +204,7 @@ public class IPLAnalyser {
 			}
 		}
 	}
-	
+
 	/**
 	 * Usecase10 : Bowler with best strike rate based on four and five wickets haul
 	 * 
@@ -244,19 +245,19 @@ public class IPLAnalyser {
 				this.sort(tempList,  Comparator.comparing(entry -> entry.avg,Comparator.reverseOrder()));
 				String sorted = new Gson().toJson(tempList);
 				return sorted;
-				
+
 			}private <E> void sortForBowling1(List<MostWktsCSV> csvList, Comparator<MostWktsCSV> iplCSVComparator) {
-		for (int i = 0; i < csvList.size(); i++) {
-			for (int j = 0; j < csvList.size() - i - 1; j++) {
-				MostWktsCSV player1 = csvList.get(j);
-				MostWktsCSV player2 = csvList.get(j + 1);
-				if (iplCSVComparator.compare(player1, player2) > 0 && (player1.wickets != 0 && player2.wickets != 0)) {
-					csvList.set(j, player2);
-					csvList.set(j + 1, player1);
+				for (int i = 0; i < csvList.size(); i++) {
+					for (int j = 0; j < csvList.size() - i - 1; j++) {
+						MostWktsCSV player1 = csvList.get(j);
+						MostWktsCSV player2 = csvList.get(j + 1);
+						if (iplCSVComparator.compare(player1, player2) > 0 && (player1.wickets != 0 && player2.wickets != 0)) {
+							csvList.set(j, player2);
+							csvList.set(j + 1, player1);
+						}
+					}
 				}
 			}
-		}
-	}
 			/**
 			 * Usecase13 : Players with best bowling and batting average
 			 * 
@@ -266,10 +267,10 @@ public class IPLAnalyser {
 			public List<String> getSortedOnBestBattingAndBowlingAvg() {
 				List<MostRunsCSV> battingList = (ArrayList<MostRunsCSV>) new Gson().fromJson(this.getAverageWiseSortedData(),
 						new TypeToken<ArrayList<MostRunsCSV>>() {
-						}.getType());
+				}.getType());
 				List<MostWktsCSV> bowlingList = (ArrayList<MostWktsCSV>) new Gson().fromJson(this.getSortedOnBowlingAvg(),
 						new TypeToken<ArrayList<MostWktsCSV>>() {
-						}.getType());
+				}.getType());
 				List<String> playerList = new ArrayList<>();
 				for (MostRunsCSV bat : battingList) {
 					for (MostWktsCSV bowl : bowlingList) {
@@ -280,5 +281,28 @@ public class IPLAnalyser {
 				}
 				return playerList;
 			}
+			
+			/**
+			 * Usecase14: Finding best all rounder
+			 * 
+			 * @return
+			 */
+			public List<String> getSortedOnMaxRunsAndWkts() {
+				List<MostRunsCSV> runsList = this.sort(csvRunsList, Comparator.comparing(entry->entry.runs)).stream().limit(50).collect(Collectors.toList());
+				List<MostWktsCSV> wicketsList = this.sort(csvWktsList, Comparator.comparing(entry->entry.wickets));
+				return this.forAllRounder(runsList,wicketsList);	
+			}
 
-}
+			private List<String> forAllRounder(List<MostRunsCSV> runsList, List<MostWktsCSV> wicketsList) {
+				List<String> playerList = new ArrayList<>();
+				for (MostRunsCSV bat : runsList) {
+					for (MostWktsCSV bowl : wicketsList) {
+						if (bat.playerName.equals(bowl.playerName)) {
+							playerList.add(bat.playerName);
+						}
+					}
+				}
+				return playerList;
+			}
+
+		}

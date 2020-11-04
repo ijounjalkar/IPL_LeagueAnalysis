@@ -229,4 +229,22 @@ public class IPLAnalysisTest {
 
 	}
 	
+	/**
+	 * Finding the best All Rounder
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 * @throws IPLAnalyserException
+	 */
+	@Test
+	public void givenWktsData_WhenSortedOnMaxRunsAndWkts_ShouldReturnTrue()
+			throws IOException, CSVBuilderException, IPLAnalyserException {
+		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
+		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
+		List<String> sortedCSVData = iPLAnalyser.getSortedOnMaxRunsAndWkts();
+		assertEquals("Andre Russell", sortedCSVData.get(0));
+		assertEquals("Hardik Pandya", sortedCSVData.get(1));
+
+	}
+	
 }	
