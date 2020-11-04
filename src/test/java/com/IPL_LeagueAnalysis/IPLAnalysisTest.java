@@ -262,5 +262,19 @@ public class IPLAnalysisTest {
 		assertEquals("Jonny Bairstow", sortedCSVData.get(1).playerName);
 
 	}
+	/**
+	 * Finding player with zero hundreds but best averages
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 * @throws IPLAnalyserException
+	 */
+	@Test
+	public void givenWktsData_WhenSortedOnZeroCenturiesAndBestBattingAvg()
+			throws IOException, CSVBuilderException, IPLAnalyserException {
+		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
+		List<MostRunsCSV> sortedCSVData = iPLAnalyser.getSortedOnZeroCenturiesAndBestBattingAvg();
+		assertEquals("Marcus Stoinis", sortedCSVData.get(0).playerName);
+	}
 	
 }	
