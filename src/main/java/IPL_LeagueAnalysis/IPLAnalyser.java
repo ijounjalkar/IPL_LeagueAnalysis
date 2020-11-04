@@ -221,11 +221,31 @@ public class IPLAnalyser {
 		}
 		for(Map.Entry<Double, String> entry : csvMap.entrySet()) {
 			System.out.println(entry.getKey()+" "+ entry.getValue());
-		}
-		return (String)csvMap.values().toArray()[0];
-	}
+			/**
+			 * Usecase11 : Bowler with great averages and best striking rate
+			 * 
+			 * @return
+			 */
+			public String getSortedOnBowlingAvgAndStrikeRate() {
+				csvWktsList.removeIf(entry -> entry.avg == 0);
+				Comparator<MostWktsCSV> iplCSVComparator = Comparator.comparing(entry -> entry.avg, Comparator.reverseOrder());
+				List<MostWktsCSV> tempList = this.sort(csvWktsList, iplCSVComparator).stream().limit(10).collect(Collectors.toList());
+				this.sort(tempList,  Comparator.comparing(entry -> entry.strikeRate,Comparator.reverseOrder()));
+				String sorted = new Gson().toJson(tempList);
+				return sorted;
+			}
 
-	private <E> void sortForBowling(List<MostWktsCSV> csvList, Comparator<MostWktsCSV> iplCSVComparator) {
+			/**Usecase12 : Bowler with max wickets and best bowling average 
+			 * @return
+			 */
+			public String getSortedOnMaxWicketsAndBowlingAvg() {
+				Comparator<MostWktsCSV> iplCSVComparator = Comparator.comparing(entry -> entry.wickets);
+				List<MostWktsCSV> tempList = this.sort(csvWktsList, iplCSVComparator).stream().limit(20).collect(Collectors.toList());
+				this.sort(tempList,  Comparator.comparing(entry -> entry.avg,Comparator.reverseOrder()));
+				String sorted = new Gson().toJson(tempList);
+				return sorted;
+				
+			}private <E> void sortForBowling1(List<MostWktsCSV> csvList, Comparator<MostWktsCSV> iplCSVComparator) {
 		for (int i = 0; i < csvList.size(); i++) {
 			for (int j = 0; j < csvList.size() - i - 1; j++) {
 				MostWktsCSV player1 = csvList.get(j);
