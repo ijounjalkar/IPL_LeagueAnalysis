@@ -35,6 +35,9 @@ dependencies {
 	
 	
     compile group: 'com.opencsv', name: 'opencsv', version: '4.3'
+    compile group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
     
     
     compile fileTree(dir: 'libs', include: '*.jar')
